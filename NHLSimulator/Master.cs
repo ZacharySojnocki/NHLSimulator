@@ -8,6 +8,7 @@ namespace NHLSimulator
 {
     public class Master
     {
-
+        public static League NHL = new League();
+        public static Team myTeam = new Team();
     }
 }

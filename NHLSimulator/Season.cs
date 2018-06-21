@@ -24,6 +24,7 @@ namespace NHLSimulator
         public Team myTeam = new Team();
         public Queue<Game> schedule = new Queue<Game>();
         public Stack<Game> finishedGames;
+        public League NHL = new League();
 
         private void lstPacific_SelectedIndexChanged(object sender, EventArgs e)
         {   
@@ -76,49 +77,12 @@ namespace NHLSimulator
 
         private void btnAddPlayers_Click(object sender, EventArgs e)
         {
-            using (var reader = new StreamReader(@"Players.txt"))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-                    String[] name;
-                    name = values[1].Split('\\');
-                    name = name[0].Split(' ');
-                    for (int x = 2; x < name.Length; x++)
-                        name[1] += " " + name[x];
-                    Player player = new Player(name[0], name[1], int.Parse(values[2]), values[3], values[4]);
-                    foreach(Team team in teams)
-                    {
-                        if (player.team == team.abbreviation)
-                            team.addPlayer(player);
-                    }
-                }
-            }
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
-            using (var reader = new StreamReader(@"Players.txt"))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-                    String[] name;
-                    name = values[1].Split('\\');
-                    name = name[0].Split(' ');
-                    for (int x = 2; x < name.Length; x++)
-                        name[1] += " " + name[x];
-                    Player player = new Player(name[0], name[1], int.Parse(values[2]), values[3], values[4]);
-                    foreach (Team team in teams)
-                    {
-                        if (player.team == team.abbreviation)
-                            team.addPlayer(player);
-                    }
-                }
-            }
+            teams = Master.NHL.teams;
             makeSchedule();
             updateListBoxes();
         }     
@@ -281,22 +245,22 @@ namespace NHLSimulator
                     GFPG = Math.Round((Double)team.goalsFor / (Double)team.getGamesPlayed(), 2);
                     GAPG = Math.Round((Double)team.goalsAgainst / (Double)team.getGamesPlayed(), 2);
                 }
-                String[] row = new String[] { position.ToString(), team.name, team.getGamesPlayed().ToString(), team.points.ToString(), team.wins.ToString(), team.losses.ToString(), team.OT.ToString(),
+                String[] row = new String[] { position.ToString(), team.teamName, team.getGamesPlayed().ToString(), team.points.ToString(), team.wins.ToString(), team.losses.ToString(), team.OT.ToString(),
                                                 team.goalsFor.ToString(), GFPG.ToString(), GAPG.ToString(), team.goalsAgainst.ToString()};
                 dgvStandings.Rows.Add(row);
                 switch (team.division)
                 {
                     case "Pacific":
-                        lstPacific.Items.Add(team.getRecord() + " " + team + " " + team.games.Count);
+                        lstPacific.Items.Add(team.getRecord() + " " + team + " " + team.roster.Count);
                         break;
                     case "Central":
-                        lstCentral.Items.Add(team.getRecord() + " " + team + " " + team.games.Count);
+                        lstCentral.Items.Add(team.getRecord() + " " + team + " " + team.roster.Count);
                         break;
                     case "Atlantic":
-                        lstAtlantic.Items.Add(team.getRecord() + " " + team + " " + team.games.Count);
+                        lstAtlantic.Items.Add(team.getRecord() + " " + team + " " + team.roster.Count);
                         break;
                     case "Metropolitan":
-                        lstMetropolitan.Items.Add(team.getRecord() + " " + team + " " + team.games.Count);
+                        lstMetropolitan.Items.Add(team.getRecord() + " " + team + " " + team.roster.Count);
                         break;
                 }
                 position++;

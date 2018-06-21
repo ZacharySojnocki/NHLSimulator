@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NHLSimulator
 {
-    public class Team
+    public class Team : League
     {
-        public String name, division, abbreviation, conference;
+        public String teamName, division, abbreviation, conference;
         public int wins, losses, OT, points, totalDivision, maxDivision, totalConference, maxConference, totalOther, maxOther, goalsFor, goalsAgainst;
         public Queue<Team> games = new Queue<Team>();
         public List<Team> divisionMeetings = new List<Team>();
@@ -22,7 +22,7 @@ namespace NHLSimulator
         public Team(String name, String division, String abbreviation)
         {
             this.division = division;
-            this.name = name;
+            teamName = name;
             this.abbreviation = abbreviation;
             switch (division)
             {
@@ -106,7 +106,7 @@ namespace NHLSimulator
 
         public Boolean checkGameDivision(Team opponent)
         {
-            if (!fiveTime.Contains(opponent.name))
+            if (!fiveTime.Contains(opponent.teamName))
             {
                 for (int x = 0; x < 2; x++)
                 {
@@ -114,8 +114,8 @@ namespace NHLSimulator
                     {
                         if (fiveTime[x] == null && opponent.fiveTime[y] == null)
                         {
-                            fiveTime[x] = opponent.name;
-                            opponent.fiveTime[y] = name;
+                            fiveTime[x] = opponent.teamName;
+                            opponent.fiveTime[y] = teamName;
                             return true;
                         }
                     }
@@ -129,7 +129,7 @@ namespace NHLSimulator
             }
             if (counter < 4)
                 return true;
-            else if (counter == 4 && fiveTime.Contains(opponent.name))
+            else if (counter == 4 && fiveTime.Contains(opponent.teamName))
                 return true;
             return false;
         }
@@ -182,7 +182,7 @@ namespace NHLSimulator
 
         public override String ToString()
         {
-            return name;
+            return teamName;
         }
 
         public int getGamesPlayed()

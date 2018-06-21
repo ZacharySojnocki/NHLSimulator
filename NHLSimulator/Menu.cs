@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,22 +21,26 @@ namespace NHLSimulator
 
         private void Menu_Load(object sender, EventArgs e)
         {
-
+            Master.NHL = new League("NHL");
+            Master.NHL.createDefaultNHL();
         }
 
         private void btnPlayOne_Click(object sender, EventArgs e)
         {
-            
+            QuickGame quickGame = new QuickGame();
+            quickGame.ShowDialog();
         }
 
         private void btnPlay82_Click(object sender, EventArgs e)
         {
-
+            Season season = new Season();
+            season.ShowDialog();
         }
 
         private void btnViewTeams_Click(object sender, EventArgs e)
         {
-
+            ViewTeam viewTeam = new ViewTeam();
+            viewTeam.ShowDialog();
         }
     }
 }
