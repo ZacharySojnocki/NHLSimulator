@@ -9,8 +9,9 @@ namespace NHLSimulator
     public class Player
     {
         public String firstName, lastName, pos, team;
-        public int age, gp, g, a, pts, plusminus, pim, s, hits, fow, fot, ppg, ppp, shg, shp, gwg, otg;
-        public double shootingPer;
+        public int age, gamePlayed, goals, assists, points, plusminus, penaltyMinutes, shots, hits, faceOffWins, faceOffsTaken, powerPlayGoals, powerPlayPoints, shortHandedGoals, 
+                   shortHandedPoints, gameWinningGoals, overtimeGoals;
+        public double shootingPer, pointsPerGame;
         public DateTime birthdate;
 
         public Player() { }
@@ -24,21 +25,24 @@ namespace NHLSimulator
             this.team = team;
         }
 
-        public void setStats(int gp, int g, int a, int plusminus, int pim, int ppg, int ppp, int shg, int shp, int gwg, int otg, int s)
+        public void setStats(int gamePlayed, int goals, int assists, int plusminus, int penaltyMinutes, int powerPlayGoals, int powerPlayPoints, int shortHandedGoals, 
+                             int shortHandedPoints, int gameWinningGoals, int overtimeGoals, int shots)
         {
-            this.gp = gp;
-            this.g = g;
-            this.a = a;
-            pts = g + a;
+            this.gamePlayed = gamePlayed;
+            this.goals = goals;
+            this.assists = assists;
+            points = goals + assists;
+            pointsPerGame = Math.Round(((double)points / (double)gamePlayed), 2);
             this.plusminus = plusminus;
-            this.pim = pim;
-            this.ppg = ppg;
-            this.ppp = ppp;
-            this.shg = shg;
-            this.gwg = gwg;
-            this.otg = otg;
-            this.s = s;
-            shootingPer = Math.Round(((double) g / (double) s), 2);
+            this.penaltyMinutes = penaltyMinutes;
+            this.powerPlayGoals = powerPlayGoals;
+            this.powerPlayPoints = powerPlayPoints;
+            this.shortHandedGoals = shortHandedGoals;
+            this.shortHandedPoints = shortHandedPoints;
+            this.gameWinningGoals = gameWinningGoals;
+            this.overtimeGoals = overtimeGoals;
+            this.shots = shots;
+            shootingPer = Math.Round(((double) goals / (double) shots), 4) * 100;
         }
 
         public override String ToString()

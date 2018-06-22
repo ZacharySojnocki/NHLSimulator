@@ -32,10 +32,12 @@
             this.lblTeamName = new System.Windows.Forms.Label();
             this.dgvRoster = new System.Windows.Forms.DataGridView();
             this.Player = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TeamName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GamesPlayed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Goals = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Assists = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Points = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PointsPerGame = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PlusMinus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PenaltyMinutes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PowerplayGoals = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -75,10 +77,12 @@
             this.dgvRoster.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRoster.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Player,
+            this.TeamName,
             this.GamesPlayed,
             this.Goals,
             this.Assists,
             this.Points,
+            this.PointsPerGame,
             this.PlusMinus,
             this.PenaltyMinutes,
             this.PowerplayGoals,
@@ -89,9 +93,9 @@
             this.overtimeGoals,
             this.Shots,
             this.ShootingPercentage});
-            this.dgvRoster.Location = new System.Drawing.Point(191, 146);
+            this.dgvRoster.Location = new System.Drawing.Point(123, 146);
             this.dgvRoster.Name = "dgvRoster";
-            this.dgvRoster.Size = new System.Drawing.Size(917, 481);
+            this.dgvRoster.Size = new System.Drawing.Size(1024, 481);
             this.dgvRoster.TabIndex = 3;
             this.dgvRoster.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvRoster_SortCompare);
             // 
@@ -101,6 +105,13 @@
             this.Player.Name = "Player";
             this.Player.ReadOnly = true;
             this.Player.Width = 150;
+            // 
+            // TeamName
+            // 
+            this.TeamName.HeaderText = "Team";
+            this.TeamName.Name = "TeamName";
+            this.TeamName.ReadOnly = true;
+            this.TeamName.Width = 50;
             // 
             // GamesPlayed
             // 
@@ -129,6 +140,13 @@
             this.Points.Name = "Points";
             this.Points.ReadOnly = true;
             this.Points.Width = 50;
+            // 
+            // PointsPerGame
+            // 
+            this.PointsPerGame.HeaderText = "P/GP";
+            this.PointsPerGame.Name = "PointsPerGame";
+            this.PointsPerGame.ReadOnly = true;
+            this.PointsPerGame.Width = 50;
             // 
             // PlusMinus
             // 
@@ -223,10 +241,12 @@
         private System.Windows.Forms.Label lblTeamName;
         private System.Windows.Forms.DataGridView dgvRoster;
         private System.Windows.Forms.DataGridViewTextBoxColumn Player;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TeamName;
         private System.Windows.Forms.DataGridViewTextBoxColumn GamesPlayed;
         private System.Windows.Forms.DataGridViewTextBoxColumn Goals;
         private System.Windows.Forms.DataGridViewTextBoxColumn Assists;
         private System.Windows.Forms.DataGridViewTextBoxColumn Points;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PointsPerGame;
         private System.Windows.Forms.DataGridViewTextBoxColumn PlusMinus;
         private System.Windows.Forms.DataGridViewTextBoxColumn PenaltyMinutes;
         private System.Windows.Forms.DataGridViewTextBoxColumn PowerplayGoals;

@@ -20,34 +20,61 @@ namespace NHLSimulator
 
         private void ViewTeam_Load(object sender, EventArgs e)
         {
-            
+            cbTeam.Items.Add("Entire League");
             foreach (Team team in Master.NHL.teams)
             {
                 cbTeam.Items.Add(team.ToString());
             }
-            cbTeam.SelectedIndex = 23;
+            cbTeam.SelectedIndex = 24;
         }
 
         private void cbTeam_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblTeamName.Text = cbTeam.SelectedItem.ToString();
-            team = Master.NHL.teams[cbTeam.SelectedIndex];
-            team.roster = team.roster.OrderByDescending(roster => roster.pts).ToList();
             dgvRoster.Rows.Clear();
-            foreach(Player player in team.roster)
+            lblTeamName.Text = cbTeam.SelectedItem.ToString();
+            if (cbTeam.SelectedIndex != 0)
             {
-                String[] row = new String[] { player.ToString(), player.gp.ToString(), player.g.ToString(), player.a.ToString(), player.pts.ToString(), player.pim.ToString(),
-                                              player.plusminus.ToString(), player.ppg.ToString(), player.ppp.ToString(), player.shg.ToString(), player.shp.ToString(),
-                                              player.gwg.ToString(), player.otg.ToString(), player.s.ToString(), player.shootingPer.ToString() }; 
-                dgvRoster.Rows.Add(row);
+                team = Master.NHL.teams[cbTeam.SelectedIndex - 1];
+                team.roster = team.roster.OrderByDescending(roster => roster.points).ToList();
+                foreach (Player player in team.roster)
+                {
+                    String[] row = new String[] { player.ToString(), player.team, player.gamePlayed.ToString(), player.goals.ToString(), player.assists.ToString(), player.points.ToString(),
+                                                  player.pointsPerGame.ToString(), player.plusminus.ToString(), player.penaltyMinutes.ToString(), player.powerPlayGoals.ToString(),
+                                                  player.powerPlayPoints.ToString(), player.shortHandedGoals.ToString(), player.shortHandedPoints.ToString(),
+                                                  player.gameWinningGoals.ToString(), player.overtimeGoals.ToString(), player.shots.ToString(), player.shootingPer.ToString() };
+                    dgvRoster.Rows.Add(row);
+                }
+            } else
+            {
+                Team league = new Team();
+                foreach (Team team in Master.NHL.teams)
+                {
+                    foreach (Player player in team.roster)
+                    {
+                        league.addPlayer(player);
+                    }
+                }
+                league.roster = league.roster.OrderByDescending(roster => roster.points).ToList();
+                foreach (Player player in league.roster)
+                {
+                    String[] row = new String[] { player.ToString(), player.team, player.gamePlayed.ToString(), player.goals.ToString(), player.assists.ToString(), player.points.ToString(),
+                                                  player.pointsPerGame.ToString(), player.plusminus.ToString(), player.penaltyMinutes.ToString(), player.powerPlayGoals.ToString(),
+                                                  player.powerPlayPoints.ToString(), player.shortHandedGoals.ToString(), player.shortHandedPoints.ToString(),
+                                                  player.gameWinningGoals.ToString(), player.overtimeGoals.ToString(), player.shots.ToString(), player.shootingPer.ToString() };
+                    dgvRoster.Rows.Add(row);
+                }
             }
         }
 
         private void dgvRoster_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
         {
-            if (e.Column.Index != 0)
+            if (e.Column.Index >= 2 && e.Column.Index != 6 && e.Column.Index != 16)
             {
                 e.SortResult = int.Parse(e.CellValue2.ToString()).CompareTo(int.Parse(e.CellValue1.ToString()));
+                e.Handled = true;//pass by the default sorting
+            } else if(e.Column.Index >= 2)
+            {
+                e.SortResult = double.Parse(e.CellValue2.ToString()).CompareTo(double.Parse(e.CellValue1.ToString()));
                 e.Handled = true;//pass by the default sorting
             }
         }
