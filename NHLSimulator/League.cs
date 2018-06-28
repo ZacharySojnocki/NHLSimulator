@@ -52,7 +52,7 @@ namespace NHLSimulator
             teams.Add(new Team("Vegas Golden Knights", "Pacific", "VGK"));
             teams.Add(new Team("Washington Capitals", "Metropolitan", "WSH"));
             teams.Add(new Team("Winnipeg Jets", "Central", "WPG"));
-            //teams.Add(new Team("Ohter", "Test", "TEST"));
+            //teams.Add(new Team("Other", "Test", "TEST"));
             using (var reader = new StreamReader(@"Roster1.csv"))
             {
                 for (var i = 0; i < 3; i++)
@@ -79,9 +79,10 @@ namespace NHLSimulator
                             values[x] = resultsQ.Dequeue();
                     }
                     var teams = values[20].Split(',');
-                    Player player = new Player(values[18], values[17], int.Parse(values[12]), values[19], teams[teams.Count() - 1].Trim());
-                    player.setStats(int.Parse(values[21]), int.Parse(values[22]), int.Parse(values[23]), int.Parse(values[31]), int.Parse(values[33]), 0, 0, 0, 0,
-                                    int.Parse(values[89]), int.Parse(values[87]), int.Parse(values[47]));
+                    Player player = new Player(values[18], values[17], values[19], teams[teams.Count() - 1].Trim());
+                    player.stats.points = int.Parse(values[25]);
+                        //(int.Parse(values[21]), int.Parse(values[22]), int.Parse(values[23]), int.Parse(values[31]), int.Parse(values[33]), 0, 0, 0, 0,
+                        //            int.Parse(values[89]), int.Parse(values[87]), int.Parse(values[47]));
                     foreach (Team team in Master.NHL.teams)
                     {
                         if (player.team == team.abbreviation)
@@ -94,6 +95,113 @@ namespace NHLSimulator
                             team.addPlayer(player);
                         }
                     }
+                }
+            }
+            using (var reader = new StreamReader(@"RosterG1.csv"))
+            {
+                reader.ReadLine();
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+
+                    var results = from Match match in Regex.Matches(line, "\"([^\"]*)\"")
+                                  select match.ToString();
+                    Queue<String> resultsQ = new Queue<string>();
+                    foreach (String result in results)
+                    {
+                        line = line.Replace(result, "XXXXXX");
+                        var tempResult = result.Replace("\"", "");
+                        resultsQ.Enqueue(tempResult);
+                    }
+                    var values = line.Split(',');
+                    for (int x = 0; x < values.Length; x++)
+                    {
+                        if (values[x] == "XXXXXX")
+                            values[x] = resultsQ.Dequeue();
+                    }
+                    var teams = values[17].Split(',');
+                    Goalie goalie = new Goalie(values[16], values[15], teams[teams.Count() - 1].Trim());
+                    goalie.stats.gamesPlayed = int.Parse(values[18]);
+                    foreach (Team team in Master.NHL.teams)
+                    {
+                        if (goalie.team == team.abbreviation)
+                        {
+                            team.addGoalie(goalie);
+                            break;
+                        }
+                        else if (team.abbreviation == "TES")
+                        {
+                            team.addGoalie(goalie);
+                        }
+                    }
+                }
+            }
+            foreach (Team team in teams)
+            {
+                team.roster = team.roster.OrderByDescending(roster => roster.stats.points).ToList();
+                team.goalies = team.goalies.OrderByDescending(goalies => goalies.stats.gamesPlayed).ToList();
+                foreach (Player player in team.roster)
+                {
+                    bool foundLine = false;
+                    if (player.pos == "D")
+                    {
+                        foreach (Line dLine in team.defenseLines)
+                        {
+                            if (dLine.leftDefense == null)
+                            {
+                                dLine.leftDefense = player;
+                                foundLine = true;
+                                break;
+                            }
+                            else if (dLine.rightDefense == null)
+                            {
+                                dLine.rightDefense = player;
+                                team.defenseLines.Add(new Line());
+                                foundLine = true;
+                                break;
+                            }
+                        }
+                        if (!foundLine)
+                            team.defenseLines.Add(new Line { leftDefense = player });
+                    }
+                    else
+                    {
+                        foreach(Line fLine in team.forwardLines)
+                        {
+                            if(player.pos.Contains('C') && fLine.center == null)
+                            {
+                                fLine.center = player;
+                                foundLine = true;
+                                break;
+                            } 
+                            if(fLine.leftWing == null)
+                            {
+                                fLine.leftWing = player;
+                                foundLine = true;
+                                break;
+                            }
+                            if (fLine.rightWing == null)
+                            {
+                                fLine.rightWing = player;
+                                foundLine = true;
+                                break;
+                            }
+                            if (fLine.center == null)
+                            {
+                                fLine.center = player;
+                                foundLine = true;
+                                break;
+                            }
+                        }
+                        if (!foundLine && player.pos.Contains('C'))
+                            team.forwardLines.Add(new Line { center = player });
+                        else if (!foundLine)
+                            team.forwardLines.Add(new Line { leftWing = player });
+                    }
+                }
+                if (team.forwardLines.Count < 4 || team.defenseLines.Count < 3)
+                {
+                    System.Diagnostics.Debug.WriteLine(team.teamName);
                 }
             }
         }

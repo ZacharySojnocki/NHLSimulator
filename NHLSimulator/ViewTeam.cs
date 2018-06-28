@@ -35,13 +35,14 @@ namespace NHLSimulator
             if (cbTeam.SelectedIndex != 0)
             {
                 team = Master.NHL.teams[cbTeam.SelectedIndex - 1];
-                team.roster = team.roster.OrderByDescending(roster => roster.points).ToList();
+                team.roster = team.roster.OrderByDescending(roster => roster.stats.points).ToList();
                 foreach (Player player in team.roster)
                 {
-                    String[] row = new String[] { player.ToString(), player.team, player.gamePlayed.ToString(), player.goals.ToString(), player.assists.ToString(), player.points.ToString(),
+                    /*String[] row = new String[] { player.ToString(), player.team, player.gamePlayed.ToString(), player.goals.ToString(), player.assists.ToString(), player.points.ToString(),
                                                   player.pointsPerGame.ToString(), player.plusminus.ToString(), player.penaltyMinutes.ToString(), player.powerPlayGoals.ToString(),
                                                   player.powerPlayPoints.ToString(), player.shortHandedGoals.ToString(), player.shortHandedPoints.ToString(),
-                                                  player.gameWinningGoals.ToString(), player.overtimeGoals.ToString(), player.shots.ToString(), player.shootingPer.ToString() };
+                                                  player.gameWinningGoals.ToString(), player.overtimeGoals.ToString(), player.shots.ToString(), player.shootingPer.ToString() };*/
+                    String[] row = new string[] { player.ToString(), player.team, "0", "0", "0", player.stats.points.ToString(), "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" };
                     dgvRoster.Rows.Add(row);
                 }
             } else
@@ -54,13 +55,14 @@ namespace NHLSimulator
                         league.addPlayer(player);
                     }
                 }
-                league.roster = league.roster.OrderByDescending(roster => roster.points).ToList();
+                league.roster = league.roster.OrderByDescending(roster => roster.stats.points).ToList();
                 foreach (Player player in league.roster)
                 {
-                    String[] row = new String[] { player.ToString(), player.team, player.gamePlayed.ToString(), player.goals.ToString(), player.assists.ToString(), player.points.ToString(),
+                    /*String[] row = new String[] { player.ToString(), player.team, player.gamePlayed.ToString(), player.goals.ToString(), player.assists.ToString(), player.points.ToString(),
                                                   player.pointsPerGame.ToString(), player.plusminus.ToString(), player.penaltyMinutes.ToString(), player.powerPlayGoals.ToString(),
                                                   player.powerPlayPoints.ToString(), player.shortHandedGoals.ToString(), player.shortHandedPoints.ToString(),
-                                                  player.gameWinningGoals.ToString(), player.overtimeGoals.ToString(), player.shots.ToString(), player.shootingPer.ToString() };
+                                                  player.gameWinningGoals.ToString(), player.overtimeGoals.ToString(), player.shots.ToString(), player.shootingPer.ToString() };*/
+                    String[] row = new string[] { player.ToString(), player.team, "0", "0", "0", player.stats.points.ToString(), "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" };
                     dgvRoster.Rows.Add(row);
                 }
             }

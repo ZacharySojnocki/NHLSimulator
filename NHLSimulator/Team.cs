@@ -17,6 +17,9 @@ namespace NHLSimulator
         public List<Team> otherMeetings = new List<Team>();
         public String[] fiveTime = new String[2];
         public List<Player> roster = new List<Player>();
+        public List<Goalie> goalies = new List<Goalie>();
+        public List<Line> forwardLines = new List<Line>();
+        public List<Line> defenseLines = new List<Line>();
         public Team(){ }
 
         public Team(String name, String division, String abbreviation)
@@ -193,6 +196,11 @@ namespace NHLSimulator
         public void addPlayer(Player player)
         {
             roster.Add(player);
+        }
+
+        public void addGoalie(Goalie goalie)
+        {
+            goalies.Add(goalie);
         }
     }
 }

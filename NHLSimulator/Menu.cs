@@ -29,26 +29,24 @@ namespace NHLSimulator
         {
             QuickGame quickGame = new QuickGame();
             quickGame.ShowDialog();
-            Close();
         }
 
         private void btnPlay82_Click(object sender, EventArgs e)
         {
             Season season = new Season();
             season.ShowDialog();
-            Close();
         }
 
         private void btnViewTeams_Click(object sender, EventArgs e)
         {
             ViewTeam viewTeam = new ViewTeam();
             viewTeam.ShowDialog();
-            Close();
         }
 
         private void btnEditPlayer_Click(object sender, EventArgs e)
         {
-            Close();
+            EditPlayer editPlayer = new EditPlayer();
+            editPlayer.ShowDialog();
         }
     }
 }

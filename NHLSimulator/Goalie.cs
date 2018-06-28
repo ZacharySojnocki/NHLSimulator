@@ -6,20 +6,19 @@ using System.Threading.Tasks;
 
 namespace NHLSimulator
 {
-    public class Player
+    public class Goalie
     {
-        public String firstName, lastName, pos, team;
+        public String firstName, lastName, team;
         public DateTime birthdate;
-        public Stats stats;
-        public Player() { }
+        public GoalieStats stats;
+        public Goalie() { }
 
-        public Player(String firstName, String lastName, String pos, String team)
+        public Goalie(String firstName, String lastName, String team)
         {
             this.firstName = firstName;
             this.lastName = lastName;
-            this.pos = pos;
             this.team = team;
-            stats = new Stats();
+            stats = new GoalieStats();
         }
 
         public override String ToString()
